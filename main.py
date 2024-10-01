@@ -21,15 +21,15 @@ def main():
 
     queue = Queue()
 
-    ripple_process = Process(target=apply_filter_process, args=(Rotate180Filter, queue))
-    mirror_process = Process(target=apply_filter_process, args=(MirrorFilter, queue))
+    mirror_process = Process(target=apply_filter_process, args=(MirrorFilter(), queue))
+    bw_process = Process(target=apply_filter_process, args=(BlackAndWhiteFilter(), queue))
     resize_process = Process(target=apply_filter_process, args=(ResizeFilter(400, 300), queue))
-    red_tint_process = Process(target=apply_filter_process, args=(BlackAndWhiteFilter, queue))
+    rotate_process = Process(target=apply_filter_process, args=(Rotate180Filter(), queue))
 
-    ripple_process.start()
     mirror_process.start()
+    bw_process.start()
     resize_process.start()
-    red_tint_process.start()
+    rotate_process.start()
 
     while True:
         ret, frame = input_cap.read()
@@ -38,20 +38,25 @@ def main():
             break
 
         cv2.imshow('Original Video', frame)
+        
         queue.put(frame)
+
         processed_frame = queue.get()
+        
         cv2.imshow('Output', processed_frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
     queue.put(None)
 
-    ripple_process.join()
     mirror_process.join()
+    bw_process.join()
     resize_process.join()
-    red_tint_process.join()
+    rotate_process.join()
 
     input_cap.release()
     cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     main()
