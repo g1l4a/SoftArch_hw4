@@ -19,10 +19,9 @@ This application captures video from webcam in real-time and applies image proce
 
 To run this application, you need to have the following installed on your machine:
 
-- **Python 3.x**: Make sure you have Python installed. You can download it from [python.org](https://www.python.org/downloads/).
-- **OpenCV**: Install the OpenCV library, which is used for video capture and processing. You can install it using pip:
+- **Python 3.8.x+**: Make sure you have Python installed. You can download it from [python.org](https://www.python.org/downloads/).
   ```bash
-  pip install opencv-python
+  pip install -r requirements.txt
   ```
 
 ## Getting Started
